@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { MaxLength, MinLength } from 'class-validator';
+import { IsString, MaxLength, MinLength, IsInt } from 'class-validator';
 import { CoreEntity } from 'src/common/entities/core.entity';
 import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { InternalServerErrorException } from '@nestjs/common';
@@ -12,29 +12,35 @@ export class CommentCore extends CoreEntity {
   @Field(() => String)
   @MaxLength(20, { message: '닉네임은 20자 이내로 입력해주세요.' })
   @MinLength(1, { message: '닉네임은 2글자 이상으로 입력해주세요' })
+  @IsString()
   nickname: string;
 
   @Column({ select: false })
   @Field(() => String)
+  @IsString()
   password: string;
 
   @Column()
   @Field(() => String)
   @MaxLength(5000, { message: '댓글 내용은 5000자 이내로 입력해주세요.' })
   @MinLength(1, { message: '댓글 내용은 2글자 이상으로 입력해주세요' })
+  @IsString()
   content: string;
 
   @Column({ default: 0 })
   @Field(() => Number)
+  @IsInt()
   likes: number;
 
   @Column({ default: 0 })
   @Field(() => Number)
+  @IsInt()
   dislikes: number;
 
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
+    console.log(this.password, '나 비밀번호 실행된다');
     if (!this.password) return;
 
     try {

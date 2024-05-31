@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, ManyToOne } from 'typeorm';
 import { Comment } from './comment.entity';
 import { CommentCore } from './comment-core.entity';
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
@@ -7,8 +7,9 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 @ObjectType()
 @Entity()
 export class CommentReply extends CommentCore {
-  @Column()
   @Field(() => Comment)
-  @ManyToOne(() => Comment, (comment) => comment.replies)
+  @ManyToOne(() => Comment, (comment) => comment.replies, {
+    onDelete: 'CASCADE',
+  })
   comment: Comment;
 }

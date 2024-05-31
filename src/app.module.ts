@@ -21,6 +21,9 @@ import { AuthModule } from './auth/auth.module';
 import { Verification } from './users/entities/verification.entity';
 import { MailModule } from './mail/mail.module';
 import { CommentsModule } from './comments/comments.module';
+import { Video } from './comments/entities/video.entity';
+import { Comment } from './comments/entities/comment.entity';
+import { CommentReply } from './comments/entities/comment-reply.entity';
 
 @Module({
   imports: [
@@ -47,7 +50,7 @@ import { CommentsModule } from './comments/comments.module';
       username: 'postgres',
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE_NAME,
-      entities: [Restaurant, User, Verification],
+      entities: [Restaurant, User, Verification, Video, Comment, CommentReply],
       logging: true,
       synchronize: process.env.NODE_ENV !== 'prod',
     }),

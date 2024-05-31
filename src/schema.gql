@@ -2,6 +2,31 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Comment {
+  content: String!
+  createdAt: DateTime!
+  dislikes: Float!
+  id: Float!
+  likes: Float!
+  nickname: String!
+  password: String!
+  replies: [CommentReply!]!
+  updatedAt: DateTime!
+  video: Video!
+}
+
+type CommentReply {
+  comment: Comment!
+  content: String!
+  createdAt: DateTime!
+  dislikes: Float!
+  id: Float!
+  likes: Float!
+  nickname: String!
+  password: String!
+  updatedAt: DateTime!
+}
+
 input CreateAccountInput {
   email: String!
   password: String!
@@ -9,6 +34,17 @@ input CreateAccountInput {
 }
 
 type CreateAccountOutput {
+  error: String
+  ok: Boolean!
+}
+
+input CreateCommentInput {
+  content: String!
+  nickname: String!
+  password: String!
+}
+
+type CreateCommentOutput {
   error: String
   ok: Boolean!
 }
@@ -21,10 +57,38 @@ input CreateRestaurantDto {
   rating: Float!
 }
 
+input CreateVideoInput {
+  videoUrl: String!
+}
+
+type CreateVideoOutput {
+  error: String
+  ok: Boolean!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+input DeleteCommentInput {
+  password: String
+}
+
+type DeleteCommentOutput {
+  error: String
+  ok: Boolean!
+}
+
+input EditCommentInput {
+  content: String
+  password: String
+}
+
+type EditCommentOutput {
+  error: String
+  ok: Boolean!
+}
 
 input EditProfileInput {
   email: String
@@ -49,7 +113,14 @@ type LoginOutput {
 
 type Mutation {
   createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  createComment(input: CreateCommentInput!, videoUrl: String!): CreateCommentOutput!
+  createReply(commentId: Float!, input: CreateCommentInput!): CreateCommentOutput!
   createRestaurant(input: CreateRestaurantDto!): Boolean!
+  createVideo(input: CreateVideoInput!): CreateVideoOutput!
+  deleteComment(commentId: Float!, input: DeleteCommentInput!): DeleteCommentOutput!
+  deleteReply(input: DeleteCommentInput!, replyId: Float!): DeleteCommentOutput!
+  editComment(commentId: Float!, input: EditCommentInput!): EditCommentOutput!
+  editReply(input: EditCommentInput!, replyId: Float!): EditCommentOutput!
   login(input: LoginInput!): LoginOutput!
   updateRestaurant(input: UpdateRestaurantDto!): Boolean!
   verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
@@ -57,6 +128,9 @@ type Mutation {
 
 type Query {
   editProfile(input: EditProfileInput!): EditProfileOutput!
+  getAllVideos: [Video!]!
+  getCommentsByVideoUrl(videoUrl: String!): [Comment!]!
+  getRepliesByCommentId(commentId: Float!): [CommentReply!]!
   getRestaurantList(korean: Boolean!): [Restaurant!]!
   me: User!
   userProfile(userId: Float!): UserProfileOutput!
@@ -113,4 +187,14 @@ input VerifyEmailInput {
 type VerifyEmailOutput {
   error: String
   ok: Boolean!
+}
+
+type Video {
+  comments: [Comment!]!
+  createdAt: DateTime!
+  dislikes: Float!
+  id: Float!
+  likes: Float!
+  updatedAt: DateTime!
+  videoUrl: String!
 }
