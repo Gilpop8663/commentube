@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CommentsService } from './comments.service';
+import { CommentSortingType, CommentsService } from './comments.service';
 import { CreateVideoInput, CreateVideoOutput } from './dtos/create-video.dto';
 import { Video } from './entities/video.entity';
 import {
@@ -127,8 +127,11 @@ export class CommentsResolver {
   }
 
   @Query(() => [Comment])
-  getCommentsByVideoUrl(@Args('videoUrl') videoUrl: string) {
-    return this.commentService.getCommentsByVideoUrl(videoUrl);
+  getCommentsByVideoUrl(
+    @Args('videoUrl') videoUrl: string,
+    @Args('sortingType') sortingType: CommentSortingType,
+  ) {
+    return this.commentService.getCommentsByVideoUrl(videoUrl, sortingType);
   }
 
   @Query(() => [CommentReply])

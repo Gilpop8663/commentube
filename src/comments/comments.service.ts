@@ -9,6 +9,10 @@ import { CommentReply } from './entities/comment-reply.entity';
 import { EditCommentInput } from './dtos/edit-comment.dto';
 import { DeleteCommentInput } from './dtos/delete-comment.dto';
 
+export enum CommentSortingType {
+  POPULAR = 'popular',
+  NEWEST = 'newest',
+}
 @Injectable()
 export class CommentsService {
   constructor(
@@ -21,13 +25,28 @@ export class CommentsService {
   ) {}
 
   async getAllVideos() {
-    return this.videoRepository.find({ relations: ['comments'] });
+    return this.videoRepository.find({
+      relations: ['comments'],
+      order: { likes: 'DESC', dislikes: 'DESC' },
+    });
   }
 
-  async getCommentsByVideoUrl(videoUrl: string) {
+  async getCommentsByVideoUrl(
+    videoUrl: string,
+    sortingType: CommentSortingType,
+  ) {
+    let order = {};
+
+    if (sortingType === CommentSortingType.NEWEST) {
+      order = { comments: { createdAt: { direction: 'DESC' } } };
+    } else {
+      order = { comments: { likes: { direction: 'DESC' } } };
+    }
+
     const video = await this.videoRepository.findOne({
       where: { videoUrl },
       relations: ['comments', 'comments.replies'],
+      order,
     });
 
     if (!video) {

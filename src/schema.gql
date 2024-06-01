@@ -140,7 +140,7 @@ type Mutation {
 type Query {
   editProfile(input: EditProfileInput!): EditProfileOutput!
   getAllVideos: [Video!]!
-  getCommentsByVideoUrl(videoUrl: String!): [Comment!]!
+  getCommentsByVideoUrl(sortingType: String!, videoUrl: String!): [Comment!]!
   getRepliesByCommentId(commentId: Float!): [CommentReply!]!
   getRestaurantList(korean: Boolean!): [Restaurant!]!
   me: User!
