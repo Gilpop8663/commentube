@@ -186,8 +186,6 @@ export class CommentsService {
         return { ok: false, error: '댓글이 존재하지 않습니다.' };
       }
 
-      console.log(password, reply.password);
-
       const isPasswordCorrect = await reply.checkPassword(password);
 
       if (!isPasswordCorrect) {
@@ -224,6 +222,164 @@ export class CommentsService {
       return { ok: true };
     } catch (error) {
       return { ok: false, error: '댓글 삭제에 실패했습니다.' };
+    }
+  }
+
+  async likeVideo(videoId: number, isIncrement: boolean) {
+    try {
+      const video = await this.videoRepository.findOne({
+        where: { id: videoId },
+      });
+
+      if (!video) {
+        return { ok: false, error: '비디오가 존재하지 않습니다.' };
+      }
+
+      const newLikes = isIncrement ? video.likes + 1 : video.likes - 1;
+
+      if (newLikes < 0) {
+        return { ok: false, error: '좋아요 수는 0보다 작을 수 없습니다.' };
+      }
+
+      await this.videoRepository.update(videoId, {
+        likes: newLikes,
+      });
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: '좋아요 상태 변경에 실패했습니다.' };
+    }
+  }
+
+  async dislikeVideo(videoId: number, isIncrement: boolean) {
+    try {
+      const video = await this.videoRepository.findOne({
+        where: { id: videoId },
+      });
+
+      if (!video) {
+        return { ok: false, error: '비디오가 존재하지 않습니다.' };
+      }
+
+      const newDislikes = isIncrement ? video.dislikes + 1 : video.dislikes - 1;
+
+      if (newDislikes < 0) {
+        return { ok: false, error: '싫어요 수는 0보다 작을 수 없습니다.' };
+      }
+
+      await this.videoRepository.update(videoId, {
+        dislikes: newDislikes,
+      });
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: '싫어요에 실패했습니다.' };
+    }
+  }
+
+  async likeComment(commentId: number, isIncrement: boolean) {
+    try {
+      const comment = await this.commentRepository.findOne({
+        where: { id: commentId },
+      });
+
+      if (!comment) {
+        return { ok: false, error: '댓글이 존재하지 않습니다.' };
+      }
+
+      const newLikes = isIncrement ? comment.likes + 1 : comment.likes - 1;
+
+      if (newLikes < 0) {
+        return { ok: false, error: '좋아요 수는 0보다 작을 수 없습니다.' };
+      }
+
+      await this.commentRepository.update(commentId, {
+        likes: newLikes,
+      });
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: '좋아요에 실패했습니다.' };
+    }
+  }
+
+  async dislikeComment(commentId: number, isIncrement: boolean) {
+    try {
+      const comment = await this.commentRepository.findOne({
+        where: { id: commentId },
+      });
+
+      if (!comment) {
+        return { ok: false, error: '댓글이 존재하지 않습니다.' };
+      }
+
+      const newDislikes = isIncrement
+        ? comment.dislikes + 1
+        : comment.dislikes - 1;
+
+      if (newDislikes < 0) {
+        return { ok: false, error: '싫어요 수는 0보다 작을 수 없습니다.' };
+      }
+
+      await this.commentRepository.update(commentId, {
+        dislikes: newDislikes,
+      });
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: '싫어요에 실패했습니다.' };
+    }
+  }
+
+  async dislikeReply(replyId: number, isIncrement: boolean) {
+    try {
+      const reply = await this.commentReplyRepository.findOne({
+        where: { id: replyId },
+      });
+
+      if (!reply) {
+        return { ok: false, error: '댓글이 존재하지 않습니다.' };
+      }
+
+      const newDislikes = isIncrement ? reply.dislikes + 1 : reply.dislikes - 1;
+
+      if (newDislikes < 0) {
+        return { ok: false, error: '싫어요 수는 0보다 작을 수 없습니다.' };
+      }
+
+      await this.commentReplyRepository.update(replyId, {
+        dislikes: newDislikes,
+      });
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: '싫어요에 실패했습니다.' };
+    }
+  }
+
+  async likeReply(replyId: number, isIncrement: boolean) {
+    try {
+      const reply = await this.commentReplyRepository.findOne({
+        where: { id: replyId },
+      });
+
+      if (!reply) {
+        return { ok: false, error: '답글이 존재하지 않습니다.' };
+      }
+
+      const newLikes = isIncrement ? reply.likes + 1 : reply.likes - 1;
+
+      if (newLikes < 0) {
+        return { ok: false, error: '좋아요 수는 0보다 작을 수 없습니다.' };
+      }
+
+      await this.commentReplyRepository.update(replyId, {
+        likes: newLikes,
+      });
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: '좋아요에 실패했습니다.' };
     }
   }
 }

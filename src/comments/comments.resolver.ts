@@ -13,6 +13,7 @@ import {
   DeleteCommentInput,
   DeleteCommentOutput,
 } from './dtos/delete-comment.dto';
+import { CoreOutput } from 'src/common/dtos/output.dto';
 
 @Resolver()
 export class CommentsResolver {
@@ -70,6 +71,54 @@ export class CommentsResolver {
     @Args('input') deleteCommentInput: DeleteCommentInput,
   ) {
     return this.commentService.deleteReply(replyId, deleteCommentInput);
+  }
+
+  @Mutation(() => CoreOutput)
+  likeVideo(
+    @Args('videoId') videoId: number,
+    @Args('isIncrement') isIncrement: boolean,
+  ) {
+    return this.commentService.likeVideo(videoId, isIncrement);
+  }
+
+  @Mutation(() => CoreOutput)
+  dislikeVideo(
+    @Args('videoId') videoId: number,
+    @Args('isIncrement') isIncrement: boolean,
+  ) {
+    return this.commentService.dislikeVideo(videoId, isIncrement);
+  }
+
+  @Mutation(() => CoreOutput)
+  likeComment(
+    @Args('commentId') commentId: number,
+    @Args('isIncrement') isIncrement: boolean,
+  ) {
+    return this.commentService.likeComment(commentId, isIncrement);
+  }
+
+  @Mutation(() => CoreOutput)
+  dislikeComment(
+    @Args('commentId') commentId: number,
+    @Args('isIncrement') isIncrement: boolean,
+  ) {
+    return this.commentService.dislikeComment(commentId, isIncrement);
+  }
+
+  @Mutation(() => CoreOutput)
+  likeReply(
+    @Args('replyId') replyId: number,
+    @Args('isIncrement') isIncrement: boolean,
+  ) {
+    return this.commentService.likeReply(replyId, isIncrement);
+  }
+
+  @Mutation(() => CoreOutput)
+  dislikeReply(
+    @Args('replyId') replyId: number,
+    @Args('isIncrement') isIncrement: boolean,
+  ) {
+    return this.commentService.dislikeReply(replyId, isIncrement);
   }
 
   @Query(() => [Video])
