@@ -50,6 +50,7 @@ input CreateCommentInput {
 }
 
 type CreateCommentOutput {
+  commentId: Float!
   error: String
   ok: Boolean!
 }
@@ -69,6 +70,7 @@ input CreateVideoInput {
 type CreateVideoOutput {
   error: String
   ok: Boolean!
+  videoId: Float
 }
 
 """
@@ -118,7 +120,7 @@ type LoginOutput {
 
 type Mutation {
   createAccount(input: CreateAccountInput!): CreateAccountOutput!
-  createComment(input: CreateCommentInput!, videoUrl: String!): CreateCommentOutput!
+  createComment(input: CreateCommentInput!, videoId: Float!): CreateCommentOutput!
   createReply(commentId: Float!, input: CreateCommentInput!): CreateCommentOutput!
   createRestaurant(input: CreateRestaurantDto!): Boolean!
   createVideo(input: CreateVideoInput!): CreateVideoOutput!
@@ -140,9 +142,10 @@ type Mutation {
 type Query {
   editProfile(input: EditProfileInput!): EditProfileOutput!
   getAllVideos: [Video!]!
-  getCommentsByVideoUrl(sortingType: String!, videoUrl: String!): [Comment!]!
+  getCommentsByVideoId(sortingType: String!, videoId: Float!): [Comment!]!
   getRepliesByCommentId(commentId: Float!): [CommentReply!]!
   getRestaurantList(korean: Boolean!): [Restaurant!]!
+  getVideoDetailById(videoId: Float!): Video!
   me: User!
   userProfile(userId: Float!): UserProfileOutput!
 }

@@ -31,10 +31,19 @@ export class CommentsService {
     });
   }
 
-  async getCommentsByVideoUrl(
-    videoUrl: string,
-    sortingType: CommentSortingType,
-  ) {
+  async getVideoDetailById(videoId: number) {
+    const video = await this.videoRepository.findOne({
+      where: { id: videoId },
+    });
+
+    if (!video) {
+      return { ok: false, error: '비디오가 존재하지 않습니다.' };
+    }
+
+    return video;
+  }
+
+  async getCommentsByVideoId(videoId: number, sortingType: CommentSortingType) {
     let order = {};
 
     if (sortingType === CommentSortingType.NEWEST) {
@@ -44,7 +53,7 @@ export class CommentsService {
     }
 
     const video = await this.videoRepository.findOne({
-      where: { videoUrl },
+      where: { id: videoId },
       relations: ['comments', 'comments.replies'],
       order,
     });
@@ -69,9 +78,11 @@ export class CommentsService {
     return comment.replies;
   }
 
-  async createComment(videoUrl: string, commentData: CreateCommentInput) {
+  async createComment(videoId: number, commentData: CreateCommentInput) {
     try {
-      const video = await this.videoRepository.findOne({ where: { videoUrl } });
+      const video = await this.videoRepository.findOne({
+        where: { id: videoId },
+      });
 
       if (!video) {
         return { ok: false, error: '비디오를 찾을 수 없습니다' };
@@ -84,7 +95,7 @@ export class CommentsService {
 
       await this.commentRepository.save(newComment);
 
-      return { ok: true };
+      return { ok: true, commentId: newComment.id };
     } catch (error) {
       return { ok: false, error: '댓글 생성에 실패했습니다.' };
     }
@@ -101,7 +112,7 @@ export class CommentsService {
 
       const videoUrl = extractVideoId(videoData.videoUrl);
 
-      if (!videoData) {
+      if (!videoData || !videoUrl) {
         return { ok: false, error: '유효하지 않은 URL입니다.' };
       }
 
@@ -109,7 +120,7 @@ export class CommentsService {
 
       await this.videoRepository.save(newVideo);
 
-      return { ok: true };
+      return { ok: false, videoId: newVideo.id };
     } catch (error) {
       console.error(error);
       return { ok: false, error: '비디오 생성에 실패했습니다.' };
@@ -152,8 +163,6 @@ export class CommentsService {
       if (!comment) {
         return { ok: false, error: '댓글이 존재하지 않습니다.' };
       }
-
-      console.log(password, comment.password);
 
       const isPasswordCorrect = await comment.checkPassword(password);
 

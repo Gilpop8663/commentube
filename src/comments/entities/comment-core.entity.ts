@@ -40,7 +40,6 @@ export class CommentCore extends CoreEntity {
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
-    console.log(this.password, '나 비밀번호 실행된다');
     if (!this.password) return;
 
     try {

@@ -21,16 +21,15 @@ export class CommentsResolver {
 
   @Mutation(() => CreateVideoOutput)
   createVideo(@Args('input') createVideoInput: CreateVideoInput) {
-    console.log(createVideoInput);
     return this.commentService.createVideo(createVideoInput);
   }
 
   @Mutation(() => CreateCommentOutput)
   createComment(
-    @Args('videoUrl') videoUrl: string,
+    @Args('videoId') videoId: number,
     @Args('input') createCommentInput: CreateCommentInput,
   ) {
-    return this.commentService.createComment(videoUrl, createCommentInput);
+    return this.commentService.createComment(videoId, createCommentInput);
   }
 
   @Mutation(() => CreateCommentOutput)
@@ -126,12 +125,17 @@ export class CommentsResolver {
     return this.commentService.getAllVideos();
   }
 
+  @Query(() => Video)
+  getVideoDetailById(@Args('videoId') videoId: number) {
+    return this.commentService.getVideoDetailById(videoId);
+  }
+
   @Query(() => [Comment])
-  getCommentsByVideoUrl(
-    @Args('videoUrl') videoUrl: string,
+  getCommentsByVideoId(
+    @Args('videoId') videoId: number,
     @Args('sortingType') sortingType: CommentSortingType,
   ) {
-    return this.commentService.getCommentsByVideoUrl(videoUrl, sortingType);
+    return this.commentService.getCommentsByVideoId(videoId, sortingType);
   }
 
   @Query(() => [CommentReply])

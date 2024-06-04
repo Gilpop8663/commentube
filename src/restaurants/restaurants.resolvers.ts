@@ -10,14 +10,11 @@ export class RestaurantResolver {
 
   @Query(() => [Restaurant])
   getRestaurantList(@Args('korean') korean: boolean) {
-    console.log(korean);
-
     return this.restaurantService.getAll();
   }
 
   @Mutation(() => Boolean)
   async createRestaurant(@Args('input') restaurantData: CreateRestaurantDto) {
-    console.log(restaurantData);
     await this.restaurantService.createRestaurant(restaurantData);
 
     return true;
