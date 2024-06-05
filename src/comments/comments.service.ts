@@ -144,7 +144,7 @@ export class CommentsService {
 
       await this.commentReplyRepository.save(newCommentReply);
 
-      return { ok: true };
+      return { ok: true, replyId: newCommentReply.id };
     } catch (error) {
       return { ok: false, error: '답글 생성에 실패했습니다.' };
     }

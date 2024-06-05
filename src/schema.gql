@@ -55,6 +55,18 @@ type CreateCommentOutput {
   ok: Boolean!
 }
 
+input CreateReplyInput {
+  content: String!
+  nickname: String!
+  password: String!
+}
+
+type CreateReplyOutput {
+  error: String
+  ok: Boolean!
+  replyId: Float!
+}
+
 input CreateRestaurantDto {
   address: String!
   category: String!
@@ -121,7 +133,7 @@ type LoginOutput {
 type Mutation {
   createAccount(input: CreateAccountInput!): CreateAccountOutput!
   createComment(input: CreateCommentInput!, videoId: Float!): CreateCommentOutput!
-  createReply(commentId: Float!, input: CreateCommentInput!): CreateCommentOutput!
+  createReply(commentId: Float!, input: CreateReplyInput!): CreateReplyOutput!
   createRestaurant(input: CreateRestaurantDto!): Boolean!
   createVideo(input: CreateVideoInput!): CreateVideoOutput!
   deleteComment(commentId: Float!, input: DeleteCommentInput!): DeleteCommentOutput!

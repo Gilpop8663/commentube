@@ -14,6 +14,7 @@ import {
   DeleteCommentOutput,
 } from './dtos/delete-comment.dto';
 import { CoreOutput } from 'src/common/dtos/output.dto';
+import { CreateReplyInput, CreateReplyOutput } from './dtos/create-reply.dto';
 
 @Resolver()
 export class CommentsResolver {
@@ -32,10 +33,10 @@ export class CommentsResolver {
     return this.commentService.createComment(videoId, createCommentInput);
   }
 
-  @Mutation(() => CreateCommentOutput)
+  @Mutation(() => CreateReplyOutput)
   createReply(
     @Args('commentId') commentId: number,
-    @Args('input') createCommentInput: CreateCommentInput,
+    @Args('input') createCommentInput: CreateReplyInput,
   ) {
     return this.commentService.createReply(commentId, createCommentInput);
   }
