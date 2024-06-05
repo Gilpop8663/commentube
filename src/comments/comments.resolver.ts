@@ -121,6 +121,22 @@ export class CommentsResolver {
     return this.commentService.dislikeReply(replyId, isIncrement);
   }
 
+  @Mutation(() => CoreOutput)
+  checkCommentPassword(
+    @Args('commentId') commentId: number,
+    @Args('password') password: string,
+  ) {
+    return this.commentService.checkCommentPassword(commentId, password);
+  }
+
+  @Mutation(() => CoreOutput)
+  checkReplyPassword(
+    @Args('replyId') replyId: number,
+    @Args('password') password: string,
+  ) {
+    return this.commentService.checkReplyPassword(replyId, password);
+  }
+
   @Query(() => [Video])
   getAllVideos() {
     return this.commentService.getAllVideos();

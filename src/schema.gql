@@ -131,6 +131,8 @@ type LoginOutput {
 }
 
 type Mutation {
+  checkCommentPassword(commentId: Float!, password: String!): CoreOutput!
+  checkReplyPassword(password: String!, replyId: Float!): CoreOutput!
   createAccount(input: CreateAccountInput!): CreateAccountOutput!
   createComment(input: CreateCommentInput!, videoId: Float!): CreateCommentOutput!
   createReply(commentId: Float!, input: CreateReplyInput!): CreateReplyOutput!
