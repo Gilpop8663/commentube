@@ -8,14 +8,6 @@ async function bootstrap() {
   app.enableCors({
     origin: '*', // 클라이언트의 origin을 여기에 설정
     credentials: true, // 인증 정보를 전달할 수 있도록 설정 (옵션)
-    allowedHeaders: [
-      'Accept',
-      'Authorization',
-      'Content-Type',
-      'X-Requested-With',
-      'apollo-require-preflight',
-    ],
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   });
   await app.listen(process.env.PORT || 3000);
 }

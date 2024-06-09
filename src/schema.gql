@@ -149,6 +149,7 @@ type Query {
   getCommentsByVideoId(sortingType: String!, videoId: Float!): [Comment!]!
   getRepliesByCommentId(commentId: Float!): [CommentReply!]!
   getVideoDetailById(videoId: Float!): Video!
+  healthCheck: CoreOutput!
   me: User!
   userProfile(userId: Float!): UserProfileOutput!
 }

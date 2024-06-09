@@ -159,4 +159,10 @@ export class CommentsResolver {
   getRepliesByCommentId(@Args('commentId') commentId: number) {
     return this.commentService.getRepliesByCommentId(commentId);
   }
+
+  @Query(() => CoreOutput)
+  healthCheck() {
+    console.log('health-check 잘 작동하는 중');
+    return { ok: true };
+  }
 }
