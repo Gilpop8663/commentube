@@ -1,6 +1,6 @@
 declare module NodeJS {
   interface ProcessEnv {
-    NODE_ENV: 'dev' | 'test' | 'prod';
+    NODE_ENV: 'dev' | 'test' | 'production';
     DB_HOST: string;
     DB_PORT: number;
     DB_USERNAME: string;
@@ -10,5 +10,6 @@ declare module NodeJS {
     MAILGUN_API_KEY: string;
     MAILGUN_DOMAIN_NAME: string;
     MAILGUN_FROM_EMAIL: string;
+    PORT: number;
   }
 }

@@ -26,10 +26,12 @@ import { CommentReply } from './comments/entities/comment-reply.entity';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      ignoreEnvFile: process.env.NODE_ENV === 'prod',
+      ignoreEnvFile: process.env.NODE_ENV === 'production',
       envFilePath: process.env.NODE_ENV === 'dev' ? '.env.dev' : '.env',
       validationSchema: Joi.object({
-        NODE_ENV: Joi.string().valid('dev', 'prod', 'test').default('dev'),
+        NODE_ENV: Joi.string()
+          .valid('dev', 'production', 'test')
+          .default('dev'),
         DB_PORT: Joi.number().default(5432),
         DB_USERNAME: Joi.string(),
         DB_DATABASE_NAME: Joi.string(),
@@ -46,7 +48,7 @@ import { CommentReply } from './comments/entities/comment-reply.entity';
       database: process.env.DB_DATABASE_NAME,
       entities: [User, Verification, Video, Comment, CommentReply],
       logging: true,
-      synchronize: process.env.NODE_ENV !== 'prod',
+      synchronize: process.env.NODE_ENV !== 'production',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
