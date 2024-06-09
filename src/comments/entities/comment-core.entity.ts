@@ -17,6 +17,8 @@ export class CommentCore extends CoreEntity {
 
   @Column({ select: false })
   @Field(() => String)
+  @MaxLength(20, { message: '비밀번호는 20자 이내로 입력해주세요.' })
+  @MinLength(1, { message: '비밀번호는 2글자 이상으로 입력해주세요' })
   @IsString()
   password: string;
 

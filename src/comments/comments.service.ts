@@ -116,6 +116,12 @@ export class CommentsService {
         return { ok: false, error: '유효하지 않은 URL입니다.' };
       }
 
+      const video = await this.videoRepository.findOne({ where: { videoUrl } });
+
+      if (video) {
+        return { ok: true, videoId: video.id };
+      }
+
       const newVideo = this.videoRepository.create({ videoUrl });
 
       await this.videoRepository.save(newVideo);
