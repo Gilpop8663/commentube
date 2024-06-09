@@ -53,7 +53,7 @@ import { CommentReply } from './comments/entities/comment-reply.entity';
           }),
       entities: [User, Verification, Video, Comment, CommentReply],
       logging: true,
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: true,
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
