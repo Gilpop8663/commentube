@@ -43,7 +43,7 @@ import { CommentReply } from './comments/entities/comment-reply.entity';
       type: 'postgres',
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
-      username: 'postgres',
+      username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE_NAME,
       entities: [User, Verification, Video, Comment, CommentReply],
