@@ -11,5 +11,6 @@ declare module NodeJS {
     MAILGUN_DOMAIN_NAME: string;
     MAILGUN_FROM_EMAIL: string;
     PORT: number;
+    DATABASE_URL: string;
   }
 }

@@ -41,11 +41,16 @@ import { CommentReply } from './comments/entities/comment-reply.entity';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE_NAME,
+
+      ...(process.env.DATABASE_URL
+        ? { url: process.env.DATABASE_URL }
+        : {
+            host: process.env.DB_HOST,
+            port: +process.env.DB_PORT,
+            username: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_DATABASE_NAME,
+          }),
       entities: [User, Verification, Video, Comment, CommentReply],
       logging: true,
       synchronize: process.env.NODE_ENV !== 'production',
@@ -55,6 +60,8 @@ import { CommentReply } from './comments/entities/comment-reply.entity';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       context: ({ req }) => ({ user: req['user'] }),
+      introspection: true,
+      playground: true,
     }),
     UsersModule,
     CommonModule,

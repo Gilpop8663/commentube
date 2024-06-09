@@ -9,6 +9,7 @@ async function bootstrap() {
     origin: '*', // 클라이언트의 origin을 여기에 설정
     credentials: true, // 인증 정보를 전달할 수 있도록 설정 (옵션)
   });
+
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
