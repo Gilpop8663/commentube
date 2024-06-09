@@ -118,6 +118,8 @@ export class CommentsService {
 
       const video = await this.videoRepository.findOne({ where: { videoUrl } });
 
+      console.log(videoUrl, videoData, video);
+
       if (video) {
         return { ok: true, videoId: video.id };
       }
