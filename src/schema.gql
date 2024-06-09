@@ -67,14 +67,6 @@ type CreateReplyOutput {
   replyId: Float!
 }
 
-input CreateRestaurantDto {
-  address: String!
-  category: String!
-  isOpen: Boolean! = true
-  name: String!
-  rating: Float!
-}
-
 input CreateVideoInput {
   videoUrl: String!
 }
@@ -136,7 +128,6 @@ type Mutation {
   createAccount(input: CreateAccountInput!): CreateAccountOutput!
   createComment(input: CreateCommentInput!, videoId: Float!): CreateCommentOutput!
   createReply(commentId: Float!, input: CreateReplyInput!): CreateReplyOutput!
-  createRestaurant(input: CreateRestaurantDto!): Boolean!
   createVideo(input: CreateVideoInput!): CreateVideoOutput!
   deleteComment(commentId: Float!, input: DeleteCommentInput!): DeleteCommentOutput!
   deleteReply(input: DeleteCommentInput!, replyId: Float!): DeleteCommentOutput!
@@ -149,7 +140,6 @@ type Mutation {
   likeReply(isIncrement: Boolean!, replyId: Float!): CoreOutput!
   likeVideo(isIncrement: Boolean!, videoId: Float!): CoreOutput!
   login(input: LoginInput!): LoginOutput!
-  updateRestaurant(input: UpdateRestaurantDto!): Boolean!
   verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
 }
 
@@ -158,32 +148,9 @@ type Query {
   getAllVideos: [Video!]!
   getCommentsByVideoId(sortingType: String!, videoId: Float!): [Comment!]!
   getRepliesByCommentId(commentId: Float!): [CommentReply!]!
-  getRestaurantList(korean: Boolean!): [Restaurant!]!
   getVideoDetailById(videoId: Float!): Video!
   me: User!
   userProfile(userId: Float!): UserProfileOutput!
-}
-
-type Restaurant {
-  address: String!
-  category: String!
-  id: Float!
-  isOpen: Boolean!
-  name: String!
-  rating: Float!
-}
-
-input UpdateRestaurantDto {
-  data: UpdateRestaurantInputType!
-  id: Float!
-}
-
-input UpdateRestaurantInputType {
-  address: String
-  category: String
-  isOpen: Boolean = true
-  name: String
-  rating: Float
 }
 
 type User {
